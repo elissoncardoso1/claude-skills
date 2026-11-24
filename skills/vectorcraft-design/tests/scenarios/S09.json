@@ -1,0 +1,8 @@
+{
+ "id": "S09",
+ "origin": "development repository: tests/skill-tests.md S9 (CLI, command that does not exist)",
+ "suite": "cli",
+ "kind": "custom",
+ "title": "unknown command fails with exit 1 naming the step; the catalogue offers the real id",
+ "check": "s09_unknown"
+}

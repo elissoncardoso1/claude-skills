@@ -1,0 +1,8 @@
+{
+ "id": "S05",
+ "origin": "development repository: tests/skill-tests.md S5 (MCP, A4 poster)",
+ "suite": "manual",
+ "kind": "manual",
+ "title": "poster layout from a brief",
+ "reason": "open-ended design by the agent through MCP; no fixed expected output. Needs an agent with MCP tools and a human review; no eval case yet (claude plugin eval needs MCP mocks for this)."
+}

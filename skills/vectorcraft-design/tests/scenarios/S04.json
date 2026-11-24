@@ -1,0 +1,9 @@
+{
+ "id": "S04",
+ "origin": "development repository: tests/skill-tests.md S4 (MCP, improve an existing SVG)",
+ "suite": "cli",
+ "kind": "custom",
+ "title": "diagnosis of a messy SVG: vc_check must report the objective defects (the fixing is agent work, see evals/)",
+ "check": "s04_diagnose",
+ "human_review": "the repair itself (recolour, cleanup) is judged by evals/improve-svg and a person"
+}

@@ -1,0 +1,12 @@
+{
+ "kinds": {
+  "Group": 1,
+  "Layer": 1,
+  "Path": 4
+ },
+ "outputs": {
+  "outputs/calendar.png": "2e8648f13a46a5bae8461cead8503723024d5674ef01dca5cce0444e2b6c0a5a",
+  "outputs/calendar.svg": "a39668a769076dcc1561bd7de43680a36b723afcad2ee1c5848a3fa4c2c2b84b",
+  "outputs/calendar.vectorcraft": "e52d746451cb07425242d9b6487e75528c3696e3f25a88c911053cd8e45b911f"
+ }
+}

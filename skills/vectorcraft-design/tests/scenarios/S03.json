@@ -1,0 +1,25 @@
+{
+ "id": "S03",
+ "origin": "development repository: tests/skill-tests.md S3 (CLI, vectorize a raster)",
+ "suite": "cli",
+ "kind": "delivery",
+ "title": "image trace 16 Colors of a raster logo",
+ "recipe": {
+  "steps": "tests/scenarios/s03.steps.json"
+ },
+ "in": "tests/fixtures/logo-raster.png",
+ "exports": [
+  "outputs/logo.vectorcraft",
+  "outputs/logo.svg"
+ ],
+ "expect": {
+  "reproduction": "REPRODUCED_BINARY",
+  "kinds_min": {
+   "Path": 20
+  },
+  "kinds_absent": [
+   "Image"
+  ]
+ },
+ "human_review": "trace fidelity (S3: flat shapes good, gradient banded, irregular corners)"
+}

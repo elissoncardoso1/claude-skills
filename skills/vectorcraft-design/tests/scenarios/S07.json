@@ -1,0 +1,29 @@
+{
+ "id": "S07",
+ "origin": "development repository: tests/skill-tests.md S7 (CLI, batch recolour)",
+ "suite": "cli",
+ "kind": "delivery",
+ "title": "recolour one file of the batch (the batch loop repeats this per file)",
+ "recipe": {
+  "steps": "tests/scenarios/s07.steps.json"
+ },
+ "in": "tests/fixtures/dot-e53935.svg",
+ "exports": [
+  "outputs/dot.svg"
+ ],
+ "expect": {
+  "reproduction": "REPRODUCED_BINARY",
+  "contains": [
+   [
+    "outputs/dot.svg",
+    "fill=\"#123456\""
+   ]
+  ],
+  "absent": [
+   [
+    "outputs/dot.svg",
+    "#e53935"
+   ]
+  ]
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "id": "S11",
+ "origin": "development repository: tests/skill-tests.md S11 (MCP, unavailable font) + acceptance test D",
+ "suite": "cli",
+ "kind": "delivery",
+ "title": "missing font is detected (manifest, vc_check) and mitigated by an outlined SVG next to the editable file",
+ "recipe": {
+  "steps": "tests/scenarios/s11.steps.json"
+ },
+ "exports": [
+  "outputs/label.vectorcraft",
+  "outputs/label.svg"
+ ],
+ "outline": [
+  "outputs/label.vectorcraft=outputs/label-outlined.svg"
+ ],
+ "expect": {
+  "reproduction": "REPRODUCED_BINARY",
+  "font_strategy": "both",
+  "fonts": [
+   {
+    "family": "FonteQueNaoExiste XYZ",
+    "status": "missing"
+   }
+  ],
+  "vc_check": [
+   [
+    "outputs/label.vectorcraft"
+   ],
+   1
+  ],
+  "contains": [
+   [
+    "outputs/label.svg",
+    "<text"
+   ]
+  ],
+  "absent": [
+   [
+    "outputs/label-outlined.svg",
+    "<text"
+   ]
+  ]
+ }
+}

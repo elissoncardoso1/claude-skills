@@ -1,0 +1,11 @@
+{
+ "kinds": {
+  "Layer": 1,
+  "Type": 1
+ },
+ "outputs": {
+  "outputs/label-outlined.svg": "ae8fa6d7bcce6d8d100ac34908779ef8d1748a9c1dab1f8c9875bef55896801f",
+  "outputs/label.svg": "1a6561a3185174bcf9aa4001f4c391a230e72e06df60f49c4bdac82eb852579c",
+  "outputs/label.vectorcraft": "c3eaf512401775223f476d796aee69ac0687e6e040b54891f12b9e538af8a468"
+ }
+}

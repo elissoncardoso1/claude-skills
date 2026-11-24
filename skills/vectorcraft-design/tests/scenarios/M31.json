@@ -1,0 +1,8 @@
+{
+ "id": "M31",
+ "origin": "development repository: docs/vectorcraft/10-test-matrix.md M31 (paint default leaks between MCP documents)",
+ "suite": "mcp",
+ "kind": "custom",
+ "title": "leak reproduced in one MCP session; the recipe preamble select.none + paint.default removes it",
+ "check": "m31_leak"
+}

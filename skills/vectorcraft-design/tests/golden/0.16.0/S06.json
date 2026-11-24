@@ -1,0 +1,15 @@
+{
+ "kinds": {
+  "Layer": 1,
+  "Path": 4,
+  "Type": 1
+ },
+ "outputs": {
+  "outputs/badge.dxf": "be119cb21c494c7897d5f03ec1e4b32a006f43ae9c64a2473aaa8f7ea3a11462",
+  "outputs/badge.eps": "971bc6719d94c4379e2feba77b00e3a99708080786cd1c0b548ad2e6eb9f9de2",
+  "outputs/badge.pdf": "6c95ed47740b3ed59f0f243cb07f1ae3445fcd1c58a31f812068c430c0e231e1",
+  "outputs/badge.png": "0b32025124727f3ad02ea05860b2dc84ce3b6a39188e4e206902711766d3cc95",
+  "outputs/badge.svg": "9a1110163a7a791a0b9312c3cc7a1f475ea4c389317eb4ad82c0c007da9502f6",
+  "outputs/badge.vectorcraft": "41d657194a91408677fac4d058d17e829414288d1a89962613050ddc599c6683"
+ }
+}

@@ -1,0 +1,2 @@
+{"id": "R01", "origin": "acceptance test G + structural negative", "suite": "cli", "kind": "custom",
+ "title": "replay detects: tampered output, edited recipe, and a real geometry/paint change hidden behind a new epoch", "check": "r01_negative"}

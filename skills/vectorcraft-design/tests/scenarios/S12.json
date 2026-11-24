@@ -1,0 +1,8 @@
+{
+ "id": "S12",
+ "origin": "development repository: tests/skill-tests.md S12 (MCP, live-only feature in headless)",
+ "suite": "mcp",
+ "kind": "custom",
+ "title": "a live-UI tool in headless returns a readable error instead of starting the app",
+ "check": "s12_headless"
+}

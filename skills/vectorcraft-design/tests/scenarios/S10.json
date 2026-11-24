@@ -1,0 +1,8 @@
+{
+ "id": "S10",
+ "origin": "development repository: tests/skill-tests.md S10 (CLI, unsupported .sketch)",
+ "suite": "cli",
+ "kind": "custom",
+ "title": "unsupported input refused, nothing written",
+ "check": "s10_unsupported"
+}

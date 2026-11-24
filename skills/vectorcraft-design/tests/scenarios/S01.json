@@ -1,0 +1,40 @@
+{
+ "id": "S01",
+ "origin": "development repository: tests/skill-tests.md S1 (MCP, calendar icon)",
+ "suite": "cli",
+ "kind": "delivery",
+ "title": "single 24 px icon from tokens, editable + SVG + PNG",
+ "recipe": {
+  "tokens": "tests/scenarios/s01-calendar.tokens.json"
+ },
+ "exports": [
+  "outputs/calendar.vectorcraft",
+  "outputs/calendar.svg",
+  "outputs/calendar.png"
+ ],
+ "scale": 8,
+ "expect": {
+  "reproduction": "REPRODUCED_BINARY",
+  "kinds": {
+   "Layer": 1,
+   "Group": 1,
+   "Path": 4
+  },
+  "vc_check": [
+   [
+    "outputs/calendar.vectorcraft",
+    "--icon",
+    "--stroke",
+    "2",
+    "--cap",
+    "round",
+    "--join",
+    "round",
+    "--pad",
+    "1"
+   ],
+   0
+  ]
+ },
+ "human_review": "sharpness at 1x and 8x, legibility as a calendar (the original S1 judged this visually)"
+}

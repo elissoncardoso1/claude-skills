@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: critica-post-mitos
+expected_outcome: |
+  Crítica priorizada que corrige os mitos (serifa mais legível, vermelho converte), aponta problemas de contraste/tamanho/excesso de texto com correções concretas, e dá especificações de stories 9:16 com zona segura.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: audit-aggressive-system-prompt
+expected_outcome: |
+  Diagnóstico dos problemas e versão reescrita do system prompt em bloco de código, sem CAIXA ALTA agressiva, com permissão para dizer que não sabe/encaminhar, sem inventar horários, dados do paciente e mensagem movidos para fora do system prompt e delimitados.

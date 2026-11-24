@@ -1,0 +1,39 @@
+{
+ "id": "S02",
+ "origin": "development repository: tests/skill-tests.md S2 (MCP + tokens, 6 dashboard icons)",
+ "suite": "cli",
+ "kind": "delivery",
+ "title": "6 consistent icons from design tokens",
+ "recipe": {
+  "tokens": "examples/icon-tokens.json"
+ },
+ "exports": [
+  "outputs/icons.vectorcraft",
+  "outputs/icons.svg",
+  "outputs/icons.pdf",
+  "outputs/icons.png"
+ ],
+ "scale": 4,
+ "expect": {
+  "reproduction": "REPRODUCED_BINARY",
+  "kinds": {
+   "Layer": 1,
+   "Group": 6,
+   "Path": 22
+  },
+  "vc_check": [
+   [
+    "outputs/icons.vectorcraft",
+    "--icon",
+    "--stroke",
+    "2",
+    "--cap",
+    "round",
+    "--join",
+    "round"
+   ],
+   0
+  ]
+ },
+ "human_review": "visual consistency of the set; S2 found two drawing defects only by looking (settings looked like a sun, bell clapper at 1 px)"
+}

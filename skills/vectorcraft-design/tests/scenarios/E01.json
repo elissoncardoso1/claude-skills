@@ -1,0 +1,2 @@
+{"id": "E01", "origin": "acceptance test E", "suite": "cli", "kind": "custom",
+ "title": "preflight and replay without a CLI, and with a CLI reporting another version", "check": "e01_cli"}

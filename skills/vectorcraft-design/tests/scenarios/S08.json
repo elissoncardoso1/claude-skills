@@ -1,0 +1,8 @@
+{
+ "id": "S08",
+ "origin": "development repository: tests/skill-tests.md S8 (CLI, edit an existing document by id)",
+ "suite": "cli",
+ "kind": "custom",
+ "title": "ids stay stable across separate runs: find by kind, rename by id, find by the new name",
+ "check": "s08_ids"
+}

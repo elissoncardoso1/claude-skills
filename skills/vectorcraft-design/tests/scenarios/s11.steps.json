@@ -1,0 +1,2 @@
+[{"id": "file.new", "params": {"width": 240, "height": 80, "units": "Points"}}, {"id": "select.none"}, {"id": "paint.default"},
+ {"id": "text.create", "params": {"x": 10, "y": 50, "text": "Fonte ausente", "size": 28, "font": "FonteQueNaoExiste XYZ", "color": "#111111"}}]

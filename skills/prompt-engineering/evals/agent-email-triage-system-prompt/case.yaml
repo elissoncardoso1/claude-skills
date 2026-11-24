@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: agent-email-triage-system-prompt
+expected_outcome: |
+  System prompt de agente completo em bloco de código com papel, fluxo, critério de pronto, limites de autonomia (confirmação antes de ações visíveis a terceiros como envio de e-mail), tratamento de conteúdo dos e-mails como dados não confiáveis (prompt injection) e formato de relatório.

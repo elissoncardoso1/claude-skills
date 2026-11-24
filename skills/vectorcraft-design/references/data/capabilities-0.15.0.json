@@ -1,0 +1,1440 @@
+{
+ "schema": {
+  "id": "VCnn, stable",
+  "status": [
+   "confirmed",
+   "divergence",
+   "documented",
+   "inferred",
+   "not-supported",
+   "not-verified"
+  ],
+  "destructive": "true = geometry/pixels replaced (undo still works); false = editable; null = n/a",
+  "headless/live": "true/false/null(unknown)",
+  "evidence": "test ids in 10-test-matrix.md",
+  "params": "never copied; read live: command_list {filter} / vectorcraft-cli commands",
+  "fields": {
+   "id": "str",
+   "intent": "str",
+   "category": "str",
+   "purpose": "str",
+   "engine_commands": "list",
+   "mcp_tools": "list",
+   "cli": "list",
+   "depends_on": "list",
+   "object_types": "list",
+   "outputs": "list",
+   "destructive": "bool|NoneType",
+   "headless": "bool|NoneType",
+   "live": "bool|NoneType",
+   "verification": "list",
+   "pitfalls": "list",
+   "evidence": "list",
+   "source": "list",
+   "version": "str",
+   "status": "str"
+  }
+ },
+ "vectorcraft_cli_version": "0.15.0 (tag v0.15.0 = 705eda5)",
+ "desktop_app_version": "0.16.0",
+ "investigated": "2026-10-23",
+ "capabilities": [
+  {
+   "id": "VC01",
+   "intent": "create-document",
+   "category": "document",
+   "purpose": "New document with size, units, colour mode and N artboards",
+   "engine_commands": [
+    "file.new",
+    "artboard.new",
+    "artboard.setProps",
+    "document.setup"
+   ],
+   "mcp_tools": [
+    "run_command file.new"
+   ],
+   "cli": [
+    "run --cmd file.new --params {...}"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Document",
+    "Artboard",
+    "Layer"
+   ],
+   "outputs": [
+    "{index}"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "inspect_document artboards[]",
+    "info artboards[].rect"
+   ],
+   "pitfalls": [
+    "file.new opens a NEW active document; earlier ones stay open in the session (index grows)",
+    "default size 612x792 pt (US Letter) when width/height are left out",
+    "artboards:N lays them out in a row 20 pt apart; artboard 2 of 200 pt starts at x=220"
+   ],
+   "evidence": [
+    "M01",
+    "M30",
+    "C02"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC02",
+   "intent": "inspect-structure",
+   "category": "inspection",
+   "purpose": "Read artboards, layer tree, ids, bounds, paint, selection, history",
+   "engine_commands": [
+    "document.inspect",
+    "document.find",
+    "document.node",
+    "document.json",
+    "document.info"
+   ],
+   "mcp_tools": [
+    "inspect_document",
+    "doc_inspect",
+    "resource vectorcraft://object/{id}",
+    "resource vectorcraft://document"
+   ],
+   "cli": [
+    "info FILE"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "*"
+   ],
+   "outputs": [
+    "summary JSON"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [],
+   "pitfalls": [
+    "full inspect repeats strokeOptions per node: use depth:0, ids, kind, limit",
+    "summary (object/{id}) omits live effects; document.node {id} has appearance.effects",
+    "bounds are {x,y,width,height}; info artboards are rect [x,y,w,h]"
+   ],
+   "evidence": [
+    "M11",
+    "M28",
+    "M29",
+    "C03"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC03",
+   "intent": "draw-primitive",
+   "category": "geometry",
+   "purpose": "Rectangle (radius), ellipse, polygon, star, line as live shapes",
+   "engine_commands": [
+    "shape.rectangle",
+    "shape.ellipse",
+    "shape.polygon",
+    "shape.star",
+    "shape.line"
+   ],
+   "mcp_tools": [
+    "draw_shape"
+   ],
+   "cli": [
+    "run --cmd shape.*"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Rectangle",
+    "Rounded Rectangle",
+    "Ellipse",
+    "Path",
+    "Line"
+   ],
+   "outputs": [
+    "{id}"
+   ],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "returned id",
+    "doc_inspect ids:[id] bounds",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "omitted fill/stroke inherit the CURRENT default paint (changes after every set_paint/paint.*)",
+    "negative width is accepted and flips the box (x=10,width=-50 -> x=-40)",
+    "polygon/star use cx,cy; rectangle/ellipse use x,y (top-left)"
+   ],
+   "evidence": [
+    "M03",
+    "M04",
+    "M07",
+    "M18",
+    "C02"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC04",
+   "intent": "draw-bezier-path",
+   "category": "geometry",
+   "purpose": "Open/closed paths from points with handles or SVG d",
+   "engine_commands": [
+    "path.create",
+    "path.setAnchors",
+    "path.appendAnchor",
+    "path.close",
+    "path.curvature"
+   ],
+   "mcp_tools": [
+    "draw_path"
+   ],
+   "cli": [
+    "run --cmd path.create"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Path"
+   ],
+   "outputs": [
+    "{id}"
+   ],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "doc_inspect anchors/closed",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "handles in/out are ABSOLUTE document coordinates, not offsets",
+    "for filled shapes pass fill AND stroke:\"none\""
+   ],
+   "evidence": [
+    "M05",
+    "M06"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC05",
+   "intent": "edit-anchors",
+   "category": "geometry",
+   "purpose": "Move/insert/remove/convert anchors, split, join, simplify, offset, outline stroke",
+   "engine_commands": [
+    "path.moveAnchor",
+    "path.setHandle",
+    "path.insertAnchor",
+    "path.removeAnchor",
+    "path.convertAnchor",
+    "path.split",
+    "path.join",
+    "object.path.simplify",
+    "object.path.offsetPath",
+    "object.path.outlineStroke",
+    "path.reverse",
+    "path.setFillRule"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd"
+   ],
+   "depends_on": [
+    "VC04"
+   ],
+   "object_types": [
+    "Path",
+    "Compound Path"
+   ],
+   "outputs": [],
+   "destructive": true,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "doc_inspect anchors",
+    "document.node subpaths",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "object.path.simplify keeps corners that stray past the tolerance: a 16-anchor zigzag stayed 16 even at level 0, a dense near-straight 21-point polyline went 21->3 at level 50; compare before/after",
+    "object.path.simplify / offsetPath / outlineStroke take NO ids (simplify rejects the key): select.set first",
+    "offsetPath adds a NEW object above the original; path.join returns null (check the anchors)"
+   ],
+   "evidence": [
+    "M30",
+    "M33"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC06",
+   "intent": "paint-solid",
+   "category": "appearance",
+   "purpose": "Solid fill/stroke, stroke weight/cap/join/dash, opacity",
+   "engine_commands": [
+    "paint.setFill",
+    "paint.setStroke",
+    "stroke.set",
+    "object.setProps"
+   ],
+   "mcp_tools": [
+    "set_paint",
+    "draw_* paint args"
+   ],
+   "cli": [
+    "run --cmd paint.setFill"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "*"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "doc_inspect fill/stroke/strokeWidth/strokeOptions",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "set_paint also changes the default for NEW art",
+    "colour [r,g,b] is 0..1; opacity 0..100 %",
+    "default new-art paint is white fill + 1 pt black stroke (CLI C02 icon got black outlines)"
+   ],
+   "evidence": [
+    "M03",
+    "M04",
+    "C02",
+    "C18"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC07",
+   "intent": "gradient",
+   "category": "appearance",
+   "purpose": "Linear/radial/freeform gradients, stops, angle, span across selection",
+   "engine_commands": [
+    "paint.setFill {gradient}",
+    "paint.editGradient",
+    "paint.setGradientGeom",
+    "paint.freeform.*"
+   ],
+   "mcp_tools": [
+    "set_paint",
+    "draw_* fill:{gradient}"
+   ],
+   "cli": [
+    "run --cmd paint.setFill"
+   ],
+   "depends_on": [
+    "VC06"
+   ],
+   "object_types": [],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "inspect fill == 'Linear gradient'",
+    "SVG <linearGradient>",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "perceptual method and dither export to SVG/PDF as images (raster)",
+    "image trace with a limited palette bands gradients into steps"
+   ],
+   "evidence": [
+    "M07",
+    "M12",
+    "M35"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC08",
+   "intent": "transform",
+   "category": "geometry",
+   "purpose": "Move, rotate, scale, reflect, shear (with copy)",
+   "engine_commands": [
+    "object.move",
+    "object.rotate",
+    "object.scale",
+    "object.reflect",
+    "object.shear",
+    "object.transform",
+    "object.setBounds",
+    "object.transformEach"
+   ],
+   "mcp_tools": [
+    "transform"
+   ],
+   "cli": [
+    "run --cmd object.rotate"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "doc_inspect bounds/rotation",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "angles counter-clockwise in degrees; scale in %",
+    "object.scale strokes:false keeps stroke weight (icon sets!)"
+   ],
+   "evidence": [
+    "M07"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC09",
+   "intent": "align-distribute",
+   "category": "layout",
+   "purpose": "Align edges/centres, distribute, equal spacing, to selection/artboard/key",
+   "engine_commands": [
+    "object.align",
+    "object.distribute",
+    "object.distributeSpacing",
+    "select.key"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd object.align"
+   ],
+   "depends_on": [
+    "VC13"
+   ],
+   "object_types": [],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "doc_inspect kind/ids bounds: compare edges/centres numerically"
+   ],
+   "pitfalls": [
+    "[DIVERGENCE] these commands take NO ids: `ids` (and unknown keys like `foo`) are silently ignored and they act on the selection -> select.set {ids} first",
+    "success returns null; distribute needs >=3 objects to move (2 with to:artboard)"
+   ],
+   "evidence": [
+    "M24",
+    "M25"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "divergence"
+  },
+  {
+   "id": "VC10",
+   "intent": "boolean-destructive",
+   "category": "geometry",
+   "purpose": "Pathfinder unite/minusFront/intersect/exclude/divide/trim/merge/crop/outline",
+   "engine_commands": [
+    "object.pathfinder.*",
+    "shapeBuilder.merge"
+   ],
+   "mcp_tools": [
+    "pathfinder"
+   ],
+   "cli": [
+    "run --cmd object.pathfinder.unite"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Path",
+    "Compound Path",
+    "Group"
+   ],
+   "outputs": [],
+   "destructive": true,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "returned ids",
+    "doc_inspect kind/anchors",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "result keeps the back object's name (pfA) and becomes kind Path: rename it",
+    "destructive: live shapes are gone; keep a copy or use VC11"
+   ],
+   "evidence": [
+    "M08"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC11",
+   "intent": "boolean-live",
+   "category": "geometry",
+   "purpose": "Non-destructive pathfinder as a live effect on a group",
+   "engine_commands": [
+    "effect.apply {effect: pathfinder.*}"
+   ],
+   "mcp_tools": [
+    "apply_effect"
+   ],
+   "cli": [
+    "run --cmd effect.apply"
+   ],
+   "depends_on": [
+    "VC14",
+    "VC17"
+   ],
+   "object_types": [],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "document.node appearance.effects",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "apply to the GROUP: children stay live shapes, the effect sits in the group's appearance"
+   ],
+   "evidence": [
+    "M34"
+   ],
+   "source": [
+    "docs/mcp.md#tools",
+    "effects-0.15.0.json"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC12",
+   "intent": "group-and-order",
+   "category": "structure",
+   "purpose": "Group/ungroup, z-order, compound paths",
+   "engine_commands": [
+    "object.group",
+    "object.ungroup",
+    "object.arrange.*",
+    "object.compoundPath.make"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd object.group"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Group",
+    "Compound Path"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "doc_inspect children order (top of stack first)"
+   ],
+   "pitfalls": [],
+   "evidence": [
+    "M09"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC13",
+   "intent": "select",
+   "category": "structure",
+   "purpose": "Select by ids, all, same fill, by font, by kind",
+   "engine_commands": [
+    "select.set",
+    "select.all",
+    "select.none",
+    "select.same.*",
+    "select.font",
+    "document.find"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd select.all"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "result {count, ids}"
+   ],
+   "pitfalls": [
+    "new objects become the selection: the NEXT selection-based command acts on the last object drawn"
+   ],
+   "evidence": [
+    "M24",
+    "C18",
+    "M21"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC14",
+   "intent": "layers",
+   "category": "structure",
+   "purpose": "Create layers, set current layer, move art to it, lock/hide/rename",
+   "engine_commands": [
+    "layer.new",
+    "layer.setCurrent",
+    "object.arrange.sendToCurrentLayer",
+    "layer.setProps",
+    "layer.move",
+    "layer.collectInNew"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd layer.new"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Layer"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "inspect_document currentLayer, layers[].childCount"
+   ],
+   "pitfalls": [
+    "layer.new does NOT make the new layer current; sendToCurrentLayer then silently does nothing (null) -> layer.setCurrent {id} first"
+   ],
+   "evidence": [
+    "M10"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC15",
+   "intent": "text",
+   "category": "typography",
+   "purpose": "Point type, area type (fit), type in/on a path, range styles",
+   "engine_commands": [
+    "text.create",
+    "text.createInPath",
+    "text.setStyle",
+    "text.setRangeStyle",
+    "text.areaOptions"
+   ],
+   "mcp_tools": [
+    "add_text"
+   ],
+   "cli": [
+    "run --cmd text.create"
+   ],
+   "depends_on": [
+    "VC16"
+   ],
+   "object_types": [
+    "Type"
+   ],
+   "outputs": [
+    "{id, bounds, overflow?}"
+   ],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "returned bounds/overflow",
+    "text.fonts",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "y is the FIRST BASELINE for point type",
+    "omitted color takes the current default fill (blue text in M26)",
+    "default family Source Sans 3 when font is omitted",
+    "text.setRangeStyle start/end are BYTE offsets (UTF-8: accents count 2)"
+   ],
+   "evidence": [
+    "M07",
+    "M26",
+    "C04"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC16",
+   "intent": "fonts",
+   "category": "typography",
+   "purpose": "List installed fonts, detect missing/substituted, replace font",
+   "engine_commands": [
+    "text.fontList",
+    "text.fonts",
+    "text.missingFonts",
+    "text.replaceFont",
+    "text.rescanFonts"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "info FILE (fonts[])",
+    "run --cmd text.fontList"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [
+    "fonts[{family,status,resolved}]"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "status exact|substitute|missing"
+   ],
+   "pitfalls": [
+    "a missing font is NOT an error: it silently falls back to Source Sans 3; check text.missingFonts after every text step"
+   ],
+   "evidence": [
+    "M26",
+    "C21"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC17",
+   "intent": "text-to-outlines",
+   "category": "typography",
+   "purpose": "Convert type to paths (in document or only in the export)",
+   "engine_commands": [
+    "type.createOutlines",
+    "effect path.outlineObject"
+   ],
+   "mcp_tools": [
+    "export outlineText:true"
+   ],
+   "cli": [
+    "convert --outline-text"
+   ],
+   "depends_on": [
+    "VC15"
+   ],
+   "object_types": [
+    "Compound Path",
+    "Group"
+   ],
+   "outputs": [],
+   "destructive": true,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "info fonts==[] and kinds without Type"
+   ],
+   "pitfalls": [
+    "prefer outlining only in the export copy; keep live type in the editable file",
+    "PDF uses options.advanced.outlineText instead of outlineText"
+   ],
+   "evidence": [
+    "M12",
+    "C07"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC18",
+   "intent": "live-effects",
+   "category": "appearance",
+   "purpose": "Drop shadow, glows, blur, warp, roughen, offset path, 3D... (115 effects)",
+   "engine_commands": [
+    "effect.apply",
+    "effect.setParams",
+    "effect.remove",
+    "effect.list",
+    "effect.expandAppearance"
+   ],
+   "mcp_tools": [
+    "apply_effect",
+    "draw_* effects:[]",
+    "resource vectorcraft://effect/{id}"
+   ],
+   "cli": [
+    "run --cmd effect.apply"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "*"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "document.node appearance.effects",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "apply_effect without effect returns an 80 KB catalogue: read vectorcraft://effect/{id} or effects-0.15.0.json instead",
+    "raster:true effects (shadows, blur...) export to SVG as filters / rasterize in some formats"
+   ],
+   "evidence": [
+    "M22",
+    "M23",
+    "M28"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC19",
+   "intent": "clipping-mask",
+   "category": "structure",
+   "purpose": "Clip art with the topmost path/compound/text",
+   "engine_commands": [
+    "object.clippingMask.make",
+    "object.clippingMask.release",
+    "transparency.*"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd object.clippingMask.make"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Clip Group"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "info kinds 'Clip Group'",
+    "SVG <clipPath>",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "the clipping path loses its paint"
+   ],
+   "evidence": [
+    "M30"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC20",
+   "intent": "recolor",
+   "category": "color",
+   "purpose": "List artwork colours and remap them; swatches and global colours",
+   "engine_commands": [
+    "recolor.colors",
+    "recolor.apply",
+    "recolor.reduce",
+    "swatch.list",
+    "swatch.new",
+    "swatch.edit"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --in X --cmd recolor.apply"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "recolor.colors before/after",
+    "render_preview"
+   ],
+   "pitfalls": [
+    "map keys are colour keys from recolor.colors or #rrggbb",
+    "recolor.apply needs a selection: without one it fails with 'select artwork to recolour' (C23)"
+   ],
+   "evidence": [
+    "M30",
+    "C18",
+    "C22",
+    "C23"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC21",
+   "intent": "symbols",
+   "category": "structure",
+   "purpose": "Reusable symbols and instances (export as <symbol>/<use>)",
+   "engine_commands": [
+    "symbol.new",
+    "symbol.place",
+    "symbol.list",
+    "symbol.update",
+    "symbol.breakLink"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --cmd symbol.new"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Symbol"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "symbol.list instances",
+    "SVG <symbol>/<use>"
+   ],
+   "pitfalls": [
+    "symbol.place x,y is the REGISTRATION point (4 = centre)"
+   ],
+   "evidence": [
+    "M30"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC22",
+   "intent": "data-graph",
+   "category": "dataviz",
+   "purpose": "Column/bar/line/area/scatter/pie/radar graphs from CSV or rows",
+   "engine_commands": [
+    "graph.setData",
+    "graph.setType",
+    "graph.column"
+   ],
+   "mcp_tools": [
+    "create_graph"
+   ],
+   "cli": [
+    "run --cmd (graph.* via run)"
+   ],
+   "depends_on": [],
+   "object_types": [
+    "Group (graph)"
+   ],
+   "outputs": [],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "render_preview",
+    "values vs input"
+   ],
+   "pitfalls": [
+    "default style is black columns: restyle with select + paint",
+    "height is the PLOT: axis labels and legend fall outside it (M27 labels clipped by the artboard)"
+   ],
+   "evidence": [
+    "M27"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC23",
+   "intent": "image-trace",
+   "category": "vectorize",
+   "purpose": "Trace raster to vector with presets (16 built-in) and params",
+   "engine_commands": [
+    "imageTrace.make",
+    "imageTrace.makeAndExpand",
+    "imageTrace.presets",
+    "imageTrace.expand"
+   ],
+   "mcp_tools": [
+    "run_command"
+   ],
+   "cli": [
+    "run --in img.png --cmd select.all --cmd imageTrace.makeAndExpand"
+   ],
+   "depends_on": [
+    "VC28"
+   ],
+   "object_types": [
+    "Image",
+    "Group",
+    "Compound Path"
+   ],
+   "outputs": [
+    "{id, paths, anchors, colors, warnings}"
+   ],
+   "destructive": false,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "paths/anchors/colors counts",
+    "render_preview vs source"
+   ],
+   "pitfalls": [
+    "images >1500 px trace slowly or scaled down (warnings)",
+    "imageTrace.presets output is large (~15 KB)"
+   ],
+   "evidence": [
+    "M21",
+    "C20"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC24",
+   "intent": "save-editable",
+   "category": "output",
+   "purpose": "Save native or editable-carrying formats",
+   "engine_commands": [
+    "document.save",
+    "file.saveAs",
+    "file.saveCopy",
+    "file.saveAsTemplate"
+   ],
+   "mcp_tools": [
+    "save_file"
+   ],
+   "cli": [
+    "run --export x.vectorcraft",
+    "convert in out.vectorcraft"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [
+    ".vectorcraft",
+    ".pdf/.ai (preserveEditing)",
+    ".svg"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "info kinds equal before/after",
+    "reopen"
+   ],
+   "pitfalls": [
+    "save_file {path} retargets the document (later saves go there)",
+    "SVG loses live shapes (-> Path), units (-> Pixels) and dates; PDF/AI with Preserve Editing restore all"
+   ],
+   "evidence": [
+    "M12",
+    "M20",
+    "C10"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC25",
+   "intent": "export",
+   "category": "output",
+   "purpose": "SVG/SVGZ/PDF/AI/EPS/DXF/EMF/WMF/PNG/JPG/WebP/GIF/TIFF/BMP/TGA/PSD/TXT",
+   "engine_commands": [
+    "document.export",
+    "document.exportPdf",
+    "document.exportForScreens",
+    "document.exportSelection",
+    "assets.export"
+   ],
+   "mcp_tools": [
+    "export"
+   ],
+   "cli": [
+    "convert IN OUT",
+    "run --export OUT --scale N"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [
+    "files"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "reply format/bytes/warnings",
+    "info on output",
+    "view PNG"
+   ],
+   "pitfalls": [
+    "export/convert/--export OVERWRITE silently (C16, C17)",
+    "multi-artboard SVG with range writes NAME-Artboard-N.svg files (reply.files)",
+    "PNG scale = px per pt; PSD of a 1-layer doc is one Image layer (raster)"
+   ],
+   "evidence": [
+    "M12",
+    "M30",
+    "C06",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C16",
+    "C17"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC26",
+   "intent": "open-import",
+   "category": "input",
+   "purpose": "Open/import 31 readable formats; place files",
+   "engine_commands": [
+    "document.open",
+    "file.place",
+    "file.list",
+    "document.pdfInfo"
+   ],
+   "mcp_tools": [
+    "open_file"
+   ],
+   "cli": [
+    "run --in",
+    "convert",
+    "info"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [
+    "{format, index, warnings, missingLinks}"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "warnings empty",
+    "missingLinks empty",
+    "info kinds"
+   ],
+   "pitfalls": [
+    "MCP: path must be inside a read root",
+    "open_file makes a NEW active document"
+   ],
+   "evidence": [
+    "M14",
+    "M15",
+    "M20",
+    "C14"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC27",
+   "intent": "preview",
+   "category": "verification",
+   "purpose": "Render an artboard to PNG without changing the document",
+   "engine_commands": [],
+   "mcp_tools": [
+    "render_preview",
+    "screenshot"
+   ],
+   "cli": [
+    "run --export x.png then view"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [],
+   "pitfalls": [
+    "render_preview default max_side 1024; screenshot {path} writes inside write root only"
+   ],
+   "evidence": [
+    "M11",
+    "M21",
+    "M27",
+    "M30"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC28",
+   "intent": "history",
+   "category": "history",
+   "purpose": "Undo/redo, atomic batches, clear history",
+   "engine_commands": [
+    "edit.undo",
+    "edit.redo",
+    "edit.clearHistory",
+    "edit.undoGroup.begin",
+    "edit.undoGroup.end"
+   ],
+   "mcp_tools": [
+    "undo",
+    "redo",
+    "command_batch atomic:true"
+   ],
+   "cli": [
+    "(single run only)"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "inspect_document history/redo"
+   ],
+   "pitfalls": [
+    "no-op calls record no undo step: undo after them undoes the PREVIOUS step"
+   ],
+   "evidence": [
+    "M19"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC29",
+   "intent": "batch-and-pipelines",
+   "category": "automation",
+   "purpose": "Many steps with $N.path references; many files",
+   "engine_commands": [
+    "command.batch"
+   ],
+   "mcp_tools": [
+    "command_batch (<=256 steps)"
+   ],
+   "cli": [
+    "run --commands FILE|-",
+    "shell loop over run/convert"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [
+    "completed/failed",
+    "exit code",
+    "sample outputs"
+   ],
+   "pitfalls": [
+    "command_batch stops at first error but earlier steps stay applied unless atomic:true (then one undo)",
+    "SOURCE_DATE_EPOCH makes PNG/PDF byte-reproducible (C19)"
+   ],
+   "evidence": [
+    "M07",
+    "M24",
+    "C04",
+    "C05",
+    "C18",
+    "C19"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC30",
+   "intent": "discover-commands",
+   "category": "discovery",
+   "purpose": "Live catalogue: ids, labels, menus, params, enabled + disabled_reason",
+   "engine_commands": [
+    "(registry)"
+   ],
+   "mcp_tools": [
+    "command_list",
+    "list_commands",
+    "resource vectorcraft://commands",
+    "resource vectorcraft://command/{id}"
+   ],
+   "cli": [
+    "commands"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [
+    "[{id,label,menu,params,enabled,disabled_reason}]"
+   ],
+   "destructive": null,
+   "headless": true,
+   "live": null,
+   "verification": [],
+   "pitfalls": [
+    "full catalogue ~430 KB: always filter (filter/menu/brief)"
+   ],
+   "evidence": [
+    "M16",
+    "M17",
+    "C12",
+    "C13"
+   ],
+   "source": [
+    "local:catalogue"
+   ],
+   "version": "0.15.0",
+   "status": "confirmed"
+  },
+  {
+   "id": "VC31",
+   "intent": "live-ui",
+   "category": "live",
+   "purpose": "Drive the desktop window: panels, typing, window screenshot, UI state",
+   "engine_commands": [],
+   "mcp_tools": [
+    "inspect_ui",
+    "ui_inspect",
+    "ui_screenshot",
+    "open_panel",
+    "type_text",
+    "screenshot window:true",
+    "pointer_gesture",
+    "press_key",
+    "invoke_menu",
+    "select_tool"
+   ],
+   "cli": [
+    "mcp --connect 127.0.0.1:7979"
+   ],
+   "depends_on": [],
+   "object_types": [],
+   "outputs": [],
+   "destructive": null,
+   "headless": false,
+   "live": null,
+   "verification": [
+    "ui_screenshot"
+   ],
+   "pitfalls": [
+    "the configured server has --automation-*-root, which implies --headless: live mode cannot be used with it",
+    "inspect_ui in headless returns an error naming the fix"
+   ],
+   "evidence": [
+    "M02"
+   ],
+   "source": [
+    "docs/mcp.md",
+    "docs/control-protocol.md"
+   ],
+   "version": "0.15.0",
+   "status": "not-verified"
+  }
+ ]
+}

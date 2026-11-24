@@ -1,0 +1,49 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "vectorcraft-delivery/1",
+ "title": "VectorCraft delivery manifest (manifest.json)",
+ "description": "Written by scripts/vc_manifest.py, checked by scripts/vc_replay.py (validate_manifest() in vc_common.py enforces the same rules without a jsonschema dependency). Every path is relative to the delivery folder and may not contain '..'. The manifest does not hash itself. Also enforced in code only: outputs[].path must be exactly run.exports + derived[].to, and an output's comparison is chosen by its file extension, never by its format field.",
+ "type": "object",
+ "required": ["schema", "plugin", "skill", "environment", "source_date_epoch", "recipe", "run", "derived", "inputs",
+              "outputs", "fonts", "font_strategy", "external_resources", "dependencies", "determinism", "reproduction"],
+ "$defs": {
+  "relpath": {"type": "string", "minLength": 1, "not": {"pattern": "(^/|^~|^[A-Za-z]:|^file:|(^|/)\\.\\.(/|$)|\\\\)"}},
+  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+  "file": {"type": "object", "required": ["path", "sha256"],
+           "properties": {"path": {"$ref": "#/$defs/relpath"}, "sha256": {"$ref": "#/$defs/sha256"},
+                          "bytes": {"type": "integer"}, "format": {"type": "string"}}},
+  "status": {"enum": ["REPRODUCED_BINARY", "REPRODUCED_VISUAL", "REPRODUCED_STRUCTURAL", "FAILED", "UNVERIFIED"]}
+ },
+ "properties": {
+  "schema": {"const": "vectorcraft-delivery/1"},
+  "plugin": {"type": "object", "properties": {"name": {"type": "string"}, "version": {"type": "string"}}},
+  "skill": {"type": "object", "properties": {"name": {"type": "string"}, "version": {"type": "string"}}},
+  "created": {"type": "string"},
+  "environment": {"type": "object", "properties": {
+   "cli": {"type": "string"}, "cli_version": {"type": ["string", "null"]}, "app_version": {"type": ["string", "null"]},
+   "os": {"type": "string"}, "arch": {"type": "string"}, "python": {"type": "string"}}},
+  "source_date_epoch": {"type": "integer", "minimum": 0},
+  "recipe": {"type": "object", "required": ["path", "sha256"], "properties": {
+   "path": {"$ref": "#/$defs/relpath"}, "sha256": {"$ref": "#/$defs/sha256"}, "steps": {"type": "integer"},
+   "format": {"const": "vectorcraft-steps/1"}}},
+  "run": {"type": "object", "required": ["exports"], "properties": {
+   "in": {"oneOf": [{"$ref": "#/$defs/relpath"}, {"type": "null"}]},
+   "exports": {"type": "array", "items": {"$ref": "#/$defs/relpath"}},
+   "scale": {"type": ["number", "null"]}}},
+  "derived": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["from", "to"],
+   "properties": {"from": {"$ref": "#/$defs/relpath"}, "to": {"$ref": "#/$defs/relpath"},
+    "options": {"type": "object", "additionalProperties": false, "properties": {
+     "outline_text": {"type": "boolean"}, "scale": {"type": "number"}, "artboard": {"type": "integer"},
+     "decimals": {"type": "integer"}}}}}},
+  "inputs": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+  "outputs": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+  "fonts": {"type": "array", "items": {"type": "object", "required": ["family", "style", "status"], "properties": {
+   "family": {"type": "string"}, "style": {"type": "string"}, "status": {"enum": ["exact", "substitute", "missing"]},
+   "resolved": {"type": ["object", "null"]}, "file": {"type": ["string", "null"]}, "file_sha256": {"type": ["string", "null"]}}}},
+  "font_strategy": {"enum": ["none", "editable", "outlined", "both"]},
+  "external_resources": {"type": "array"},
+  "dependencies": {"type": "object"},
+  "determinism": {"type": "object"},
+  "reproduction": {"type": "object", "required": ["status"], "properties": {"status": {"$ref": "#/$defs/status"}}}
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "kinds": {
+  "Group": 6,
+  "Layer": 1,
+  "Path": 22
+ },
+ "outputs": {
+  "outputs/icons.pdf": "785b7963c26c1baec12c3b094834f95479edac62fcf261eef92a0d7085120a2e",
+  "outputs/icons.png": "58383b77126b3f4d92b553cb5d46044b1efc797d63e20cb8aba9fbc58f3f3282",
+  "outputs/icons.svg": "9eae4a13134bf76e30eb379dbb07839eaa68bd6c8c3787390f479bf09c7142dd",
+  "outputs/icons.vectorcraft": "f18be8926a2c96a2b4b88b809c55074dbe66b3ba084ecc4bd2de1ecf22d60bfd"
+ }
+}

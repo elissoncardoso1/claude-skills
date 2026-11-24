@@ -1,0 +1,12 @@
+{
+ "kinds": {
+  "Compound Path": 5,
+  "Group": 1,
+  "Layer": 1,
+  "Path": 35
+ },
+ "outputs": {
+  "outputs/logo.svg": "63e1351ed77a37b7b1b801c56e89e304cab542d64ce4039ace7be8319277d629",
+  "outputs/logo.vectorcraft": "ead37de736f06049fe80739a755938fe6d8573e9817750b0e97c5b7ce43e8b68"
+ }
+}

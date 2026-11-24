@@ -1,0 +1,35 @@
+{
+ "id": "S06",
+ "origin": "development repository: tests/skill-tests.md S6 (CLI, export to several formats)",
+ "suite": "cli",
+ "kind": "delivery",
+ "title": "one SVG in, SVG/PDF/EPS/PNG/DXF out",
+ "recipe": {
+  "steps": "tests/scenarios/reset-only.steps.json"
+ },
+ "in": "tests/fixtures/badge-messy.svg",
+ "exports": [
+  "outputs/badge.vectorcraft",
+  "outputs/badge.svg",
+  "outputs/badge.pdf",
+  "outputs/badge.eps",
+  "outputs/badge.png",
+  "outputs/badge.dxf"
+ ],
+ "scale": 2,
+ "expect": {
+  "reproduction": "REPRODUCED_BINARY",
+  "kinds": {
+   "Layer": 1,
+   "Path": 4,
+   "Type": 1
+  },
+  "fonts": [
+   {
+    "family": "Comic Neue Fantasy",
+    "status": "missing"
+   }
+  ]
+ },
+ "human_review": "per-format losses (DXF splits shapes; see export-formats.md)"
+}

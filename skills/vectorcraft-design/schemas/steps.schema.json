@@ -1,0 +1,23 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "vectorcraft-steps/1",
+ "title": "VectorCraft recipe (steps.json)",
+ "description": "Exactly what `vectorcraft-cli run --commands FILE` reads (JSON array form), restricted for reproducible deliveries. Enforced in code by scripts/vc_common.py validate_steps(): step 0 is file.new, steps 1-2 are select.none and paint.default (M31); a recipe run on `--in FILE` instead starts with select.none, paint.default (the prefixItems below describe the new-document form), no file/app/plugin/script/prefs commands, no path-like strings (absolute, ~, .., drive letters, file:). The same array runs in MCP as command_batch {steps} when it has at most 256 steps. \"$N.path\" references are 0-based step indices.",
+ "type": "array",
+ "minItems": 3,
+ "items": {
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+   "id": {"type": "string", "minLength": 1, "description": "engine command id (or use \"command\")"},
+   "command": {"type": "string", "minLength": 1},
+   "params": {"type": "object"}
+  },
+  "oneOf": [{"required": ["id"]}, {"required": ["command"]}]
+ },
+ "prefixItems": [
+  {"properties": {"id": {"const": "file.new"}}},
+  {"properties": {"id": {"const": "select.none"}}},
+  {"properties": {"id": {"const": "paint.default"}}}
+ ]
+}

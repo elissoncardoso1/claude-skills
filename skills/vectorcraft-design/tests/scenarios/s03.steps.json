@@ -1,0 +1,2 @@
+[{"id": "select.none"}, {"id": "paint.default"}, {"id": "select.all"},
+ {"id": "imageTrace.makeAndExpand", "params": {"preset": "16 Colors", "params": {"ignoreWhite": true}}}]

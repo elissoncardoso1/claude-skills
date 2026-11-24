@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: structured-extraction-openai-code
+expected_outcome: |
+  Script Python usando Structured Outputs (json_schema strict ou Pydantic parse) em vez de JSON mode/prompt-only, com campos opcionais como nullable, tratamento de recusa/incompleto, validação, e instrução para dados ausentes.

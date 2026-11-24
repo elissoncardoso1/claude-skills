@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: prompt-carrossel-construtivista
+expected_outcome: |
+  Prompt de IA em inglês em bloco de código, com o texto visível em português, estilo descrito por regras formais do construtivismo (diagonais, vermelho/preto, fotomontagem) sem nomes de artistas ou obras específicas, formato 4:5 ou 1:1, e orientações de carrossel (primeiro cartão autônomo, grid/continuidade).

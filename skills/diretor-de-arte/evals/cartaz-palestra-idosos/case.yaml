@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: cartaz-palestra-idosos
+expected_outcome: |
+  Direção de arte completa para cartaz A3 com tamanhos de letra justificados pela distância de leitura e pelo público idoso, contraste medido, especificações de gráfica (CMYK, sangria, PDF/X-4) e marcadores para data/horário em vez de dados inventados.
